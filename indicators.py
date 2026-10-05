@@ -1,7 +1,7 @@
-"""Technical indicator calculations for the stock dashboard."""
+"""Technical indicator calculations using ta library (pure Python, no numba needed)."""
 
 import pandas as pd
-import pandas_ta as ta
+import ta
 from config import (
     RSI_PERIOD, SMA_SHORT, SMA_LONG, EMA_PERIOD,
     MACD_FAST, MACD_SLOW, MACD_SIGNAL,
@@ -17,19 +17,30 @@ def calculate_indicators(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     
     # RSI
-    df["RSI"] = ta.rsi(df["Close"], length=RSI_PERIOD)
+    rsi = ta.momentum.RSIIndicator(df["Close"], window=RSI_PERIOD)
+    df["RSI"] = rsi.rsi()
     
     # SMA
-    df["SMA_20"] = ta.sma(df["Close"], length=SMA_SHORT)
-    df["SMA_50"] = ta.sma(df["Close"], length=SMA_LONG)
+    sma20 = ta.trend.SMAIndicator(df["Close"], window=SMA_SHORT)
+    df["SMA_20"] = sma20.sma_indicator()
+    
+    sma50 = ta.trend.SMAIndicator(df["Close"], window=SMA_LONG)
+    df["SMA_50"] = sma50.sma_indicator()
     
     # EMA
-    df["EMA_12"] = ta.ema(df["Close"], length=EMA_PERIOD)
+    ema12 = ta.trend.EMAIndicator(df["Close"], window=EMA_PERIOD)
+    df["EMA_12"] = ema12.ema_indicator()
     
     # MACD
-    macd = ta.macd(df["Close"], fast=MACD_FAST, slow=MACD_SLOW, signal=MACD_SIGNAL)
-    if macd is not None and not macd.empty:
-        df = pd.concat([df, macd], axis=1)
+    macd = ta.trend.MACD(
+        df["Close"],
+        window_fast=MACD_FAST,
+        window_slow=MACD_SLOW,
+        window_sign=MACD_SIGNAL
+    )
+    df["MACD_12_26_9"] = macd.macd()
+    df["MACDs_12_26_9"] = macd.macd_signal()
+    df["MACDh_12_26_9"] = macd.macd_diff()
     
     return df
 
@@ -66,12 +77,9 @@ def generate_signal(df: pd.DataFrame) -> str:
         else:
             signals.append(-1)  # Bearish
     
-    # MACD signal
-    macd_col = [c for c in df.columns if "MACD_12_26_9" in c and "h" not in c.lower() and "s" not in c.lower()]
-    macd_hist_col = [c for c in df.columns if "MACDh" in c or "MACD" in c and "h" in c.lower()]
-    
-    if macd_hist_col and pd.notna(latest.get(macd_hist_col[0])):
-        if latest[macd_hist_col[0]] > 0:
+    # MACD histogram signal
+    if pd.notna(latest.get("MACDh_12_26_9")):
+        if latest["MACDh_12_26_9"] > 0:
             signals.append(1)  # Bullish
         else:
             signals.append(-1)  # Bearish
@@ -97,16 +105,15 @@ def get_indicator_summary(df: pd.DataFrame) -> dict:
     latest = df.iloc[-1]
     
     summary = {
-        "RSI(14)": f"{latest.get('RSI', 'N/A'):.1f}" if pd.notna(latest.get("RSI")) else "N/A",
+        "RSI(14)": f"{latest.get('RSI', 0):.1f}" if pd.notna(latest.get("RSI")) else "N/A",
         "SMA(20)": f"${latest.get('SMA_20', 0):.2f}" if pd.notna(latest.get("SMA_20")) else "N/A",
         "SMA(50)": f"${latest.get('SMA_50', 0):.2f}" if pd.notna(latest.get("SMA_50")) else "N/A",
         "EMA(12)": f"${latest.get('EMA_12', 0):.2f}" if pd.notna(latest.get("EMA_12")) else "N/A",
     }
     
-    # MACD
-    macd_hist_col = [c for c in df.columns if "MACDh" in c]
-    if macd_hist_col and pd.notna(latest.get(macd_hist_col[0])):
-        summary["MACD Histogram"] = f"{latest[macd_hist_col[0]]:.4f}"
+    # MACD histogram
+    if pd.notna(latest.get("MACDh_12_26_9")):
+        summary["MACD Histogram"] = f"{latest['MACDh_12_26_9']:.4f}"
     else:
         summary["MACD Histogram"] = "N/A"
     
