@@ -3,7 +3,14 @@
 import yfinance as yf
 import pandas as pd
 import streamlit as st
+from datetime import datetime
 from config import CACHE_TTL, CHART_HISTORY_PERIOD
+
+
+@st.cache_data(ttl=CACHE_TTL)
+def get_last_fetch_time() -> str:
+    """Return the timestamp when data was last fetched."""
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
 
 
 @st.cache_data(ttl=CACHE_TTL)
