@@ -25,3 +25,27 @@ MACD_SIGNAL = 9
 # Signal thresholds
 RSI_OVERSOLD = 30
 RSI_OVERBOUGHT = 70
+
+# Bollinger Bands
+BB_PERIOD = 20
+BB_STD = 2
+
+# Stochastic
+STOCH_K_PERIOD = 14
+STOCH_D_PERIOD = 3
+STOCH_SMOOTH = 3
+
+# ATR
+ATR_PERIOD = 14
+
+# ADX
+ADX_PERIOD = 14
+ADX_STRONG = 25
+ADX_WEAK = 20
+
+# Stochastic thresholds
+STOCH_OVERSOLD = 20
+STOCH_OVERBOUGHT = 80
+
+# Support/Resistance lookback
+SR_LOOKBACK = 60
