@@ -3,23 +3,7 @@
 import yfinance as yf
 import pandas as pd
 import streamlit as st
-from datetime import datetime
 from config import CACHE_TTL, CHART_HISTORY_PERIOD
-
-
-_last_fetch_time = None
-
-def get_last_fetch_time() -> str:
-    """Return the timestamp when data was last fetched."""
-    global _last_fetch_time
-    if _last_fetch_time is None:
-        _last_fetch_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
-    return _last_fetch_time
-
-def _update_fetch_time():
-    """Call this when data is actually fetched to update the timestamp."""
-    global _last_fetch_time
-    _last_fetch_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
 
 
 @st.cache_data(ttl=CACHE_TTL)
@@ -28,7 +12,6 @@ def get_stock_data(ticker: str, period: str = CHART_HISTORY_PERIOD) -> pd.DataFr
     
     Filters out rows with NaN Close prices (e.g., pre-market data on weekends).
     """
-    _update_fetch_time()
     try:
         stock = yf.Ticker(ticker)
         df = stock.history(period=period)
