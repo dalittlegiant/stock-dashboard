@@ -417,7 +417,7 @@ def render_portfolio_overview(tickers: list):
         if not df.empty:
             df = calculate_indicators(df)
             chart = create_price_chart_with_overlays(df, selected_stock)
-            st.plotly_chart(chart, use_container_width=True)
+            st.plotly_chart(chart, use_container_width=True, key="overview_price_chart")
         else:
             st.warning(f"⚠️ No data available for {selected_stock}")
 
@@ -526,7 +526,7 @@ def render_daily_report(tickers: list):
             height=350,
             margin=dict(l=20, r=20, t=40, b=20),
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, key="daily_change_chart")
 
 
 # ─── TAB 3: Technical Analysis ─────────────────────────────────────────────
@@ -580,25 +580,25 @@ def render_technical_analysis(tickers: list):
     # Price chart with Bollinger Bands + SMA/EMA
     st.subheader("📊 Price Chart with Indicators")
     price_chart = create_price_chart_with_overlays(df, selected)
-    st.plotly_chart(price_chart, use_container_width=True)
+    st.plotly_chart(price_chart, use_container_width=True, key="ta_price_chart")
 
     # MACD chart
     st.markdown("---")
     st.subheader("📉 MACD")
     macd_chart = create_macd_chart(df, selected)
-    st.plotly_chart(macd_chart, use_container_width=True)
+    st.plotly_chart(macd_chart, use_container_width=True, key="ta_macd_chart")
 
     # Stochastic chart
     st.markdown("---")
     st.subheader("📈 Stochastic Oscillator")
     stoch_chart = create_stochastic_chart(df, selected)
-    st.plotly_chart(stoch_chart, use_container_width=True)
+    st.plotly_chart(stoch_chart, use_container_width=True, key="ta_stoch_chart")
 
     # Volume chart
     st.markdown("---")
     vol_chart = create_volume_chart(selected)
     if vol_chart:
-        st.plotly_chart(vol_chart, use_container_width=True)
+        st.plotly_chart(vol_chart, use_container_width=True, key="ta_volume_chart")
 
     # Suggested Levels
     st.markdown("---")
