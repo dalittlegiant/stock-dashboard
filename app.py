@@ -704,7 +704,9 @@ def render_summary(tickers: list):
 # ─── Main App ──────────────────────────────────────────────────────────────
 def main():
     st.markdown("# 📊 Stock Portfolio Dashboard")
-    st.caption("🕐 Data refreshes every 5 minutes | Powered by Yahoo Finance")
+    from datetime import datetime
+    last_update = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    st.caption(f"🕐 Data refreshes every 5 minutes | Last update: {last_update} | Powered by Yahoo Finance")
     st.markdown("---")
 
     # Sidebar-style filter at the top (persists across tabs)
