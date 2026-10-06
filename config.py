@@ -4,7 +4,7 @@
 HOLDINGS = ["NVDA", "TSLA", "GOOG", "AVGO", "MRVL", "ORCL"]
 
 # Watchlist tickers
-WATCHLIST = ["AAPL", "NET", "SMCI", "SKHY", "SPCX", "MCD"]
+WATCHLIST = ["AAPL", "NET", "SMCI", "SKHY", "SPCX", "MCD", "SNDK", "NET", "BRK.B", "CB", "GS"]
 
 # Data fetching settings
 CACHE_TTL = 300  # seconds
