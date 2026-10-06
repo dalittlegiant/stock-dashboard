@@ -704,12 +704,7 @@ def render_summary(tickers: list):
 # ─── Main App ──────────────────────────────────────────────────────────────
 def main():
     st.markdown("# 📊 Stock Portfolio Dashboard")
-    
-    # Fetch one stock to trigger data fetch, then get the timestamp
-    get_stock_data("AAPL", period="5d")
-    last_update = get_last_fetch_time()
-    
-    st.caption(f"🕐 Data refreshes every 5 minutes | Last update: {last_update} | Powered by Yahoo Finance")
+    st.caption("🕐 Data refreshes every 5 minutes | Powered by Yahoo Finance")
     st.markdown("---")
 
     # Sidebar-style filter at the top (persists across tabs)
