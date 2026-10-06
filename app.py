@@ -9,7 +9,7 @@ from plotly.subplots import make_subplots
 import pandas as pd
 
 from config import HOLDINGS, WATCHLIST
-from data import get_stock_data, get_stock_info, get_stock_news, get_current_price_data, get_last_fetch_time
+from data import get_stock_data, get_stock_info, get_stock_news, get_current_price_data
 from indicators import (
     calculate_indicators, generate_signal, get_indicator_summary,
     get_suggested_levels, find_support_resistance, calculate_fibonacci,
