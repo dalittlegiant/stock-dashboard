@@ -11,7 +11,7 @@ import yaml
 import os
 
 from config import HOLDINGS, WATCHLIST
-from data import get_stock_data, get_stock_info, get_stock_news, get_current_price_data
+from data import get_stock_data, get_stock_info, get_stock_news, get_current_price_data, get_enhanced_price_data
 from indicators import (
     calculate_indicators, generate_signal, get_indicator_summary,
     get_suggested_levels, find_support_resistance, calculate_fibonacci,
@@ -422,10 +422,10 @@ def render_portfolio_overview(tickers: list):
     classification_data = load_classification_data()
     lookup = classification_data["lookup"]
 
-    # Build table
-    holdings_data = []
+    # Build DataFrame rows
+    rows = []
     for ticker in tickers:
-        price_data = get_current_price_data(ticker)
+        enhanced = get_enhanced_price_data(ticker)
         df = get_stock_data(ticker, period="1y")
         if not df.empty:
             df = calculate_indicators(df)
@@ -433,57 +433,109 @@ def render_portfolio_overview(tickers: list):
         else:
             signal_str = "⏸️ HOLD"
 
-        sector = lookup.get(ticker, {}).get("sector", "—")
-        style = lookup.get(ticker, {}).get("style", "—")
+        # Classification data
+        stock_info = lookup.get(ticker, {})
+        company = stock_info.get("name", ticker)
+        sector = stock_info.get("sector", "—")
+        style = stock_info.get("style", "—")
+        themes = stock_info.get("themes", [])
+        tags_str = ", ".join(themes[:3]) + ("..." if len(themes) > 3 else "") if themes else "—"
 
-        if not price_data["error"]:
-            holdings_data.append({
+        if not enhanced.get("error", True):
+            rows.append({
                 "Ticker": ticker,
+                "Company": company,
+                "Price": enhanced["price"],
+                "Price Δ%": enhanced["price_change_pct"],
+                "Open": enhanced["open"],
+                "Close": enhanced["close"],
+                "Day Δ%": enhanced["day_change_pct"],
+                "High": enhanced["high"],
+                "Low": enhanced["low"],
+                "Gap%": enhanced["gap_pct"],
+                "Volume": enhanced["volume"],
+                "Avg Vol (3M)": enhanced["avg_volume_3m"],
+                "Signal": signal_str,
                 "Sector": sector,
                 "Style": style,
-                "Price ($)": f"${price_data['price']:.2f}",
-                "Daily Change": format_change(price_data["change_pct"]),
-                "Volume": format_volume(price_data["volume"]),
-                "Signal": signal_str,
+                "Tags": tags_str,
             })
         else:
-            holdings_data.append({
+            rows.append({
                 "Ticker": ticker,
+                "Company": company,
+                "Price": None,
+                "Price Δ%": None,
+                "Open": None,
+                "Close": None,
+                "Day Δ%": None,
+                "High": None,
+                "Low": None,
+                "Gap%": None,
+                "Volume": None,
+                "Avg Vol (3M)": None,
+                "Signal": signal_str,
                 "Sector": sector,
                 "Style": style,
-                "Price ($)": "N/A",
-                "Daily Change": "N/A",
-                "Volume": "N/A",
-                "Signal": signal_str,
+                "Tags": tags_str,
             })
 
-    # Display as styled HTML table
-    table_html = """
-    <table style="width:100%; border-collapse: collapse; text-align: center;">
-    <tr style="border-bottom: 2px solid #444;">
-        <th style="padding: 10px; color: #4CAF50;">Ticker</th>
-        <th style="padding: 10px; color: #4CAF50;">Sector</th>
-        <th style="padding: 10px; color: #4CAF50;">Style</th>
-        <th style="padding: 10px; color: #4CAF50;">Price</th>
-        <th style="padding: 10px; color: #4CAF50;">Daily Change</th>
-        <th style="padding: 10px; color: #4CAF50;">Volume</th>
-        <th style="padding: 10px; color: #4CAF50;">Signal</th>
-    </tr>
-    """
-    for row in holdings_data:
-        table_html += f"""
-    <tr style="border-bottom: 1px solid #333;">
-        <td style="padding: 10px; font-weight: bold; color: #FFD700;">{row['Ticker']}</td>
-        <td style="padding: 10px; font-size: 0.85em;">{row['Sector']}</td>
-        <td style="padding: 10px; font-size: 0.85em;">{row['Style']}</td>
-        <td style="padding: 10px;">{row['Price ($)']}</td>
-        <td style="padding: 10px;">{row['Daily Change']}</td>
-        <td style="padding: 10px;">{row['Volume']}</td>
-        <td style="padding: 10px; font-size: 1.1em;">{row['Signal']}</td>
-    </tr>
-    """
-    table_html += "</table>"
-    st.markdown(table_html, unsafe_allow_html=True)
+    if not rows:
+        st.info("No stocks to display.")
+        return
+
+    df_table = pd.DataFrame(rows)
+
+    # Apply styling via Styler for color-coded percentages
+    def color_pct(val):
+        """Color green for positive, red for negative percentages."""
+        if val is None or pd.isna(val):
+            return ""
+        if val > 0:
+            return "color: #00ff88"
+        elif val < 0:
+            return "color: #ff4444"
+        return "color: #aaaaaa"
+
+    styled = df_table.style.format({
+        "Price": lambda x: f"${x:.2f}" if pd.notna(x) else "N/A",
+        "Price Δ%": lambda x: f"{x:+.2f}%" if pd.notna(x) else "N/A",
+        "Open": lambda x: f"${x:.2f}" if pd.notna(x) else "N/A",
+        "Close": lambda x: f"${x:.2f}" if pd.notna(x) else "N/A",
+        "Day Δ%": lambda x: f"{x:+.2f}%" if pd.notna(x) else "N/A",
+        "High": lambda x: f"${x:.2f}" if pd.notna(x) else "N/A",
+        "Low": lambda x: f"${x:.2f}" if pd.notna(x) else "N/A",
+        "Gap%": lambda x: f"{x:+.2f}%" if pd.notna(x) else "N/A",
+        "Volume": lambda x: format_volume(x) if pd.notna(x) else "N/A",
+        "Avg Vol (3M)": lambda x: format_volume(x) if pd.notna(x) else "N/A",
+    }).map(color_pct, subset=["Price Δ%", "Day Δ%", "Gap%"])
+
+    # Column config for better formatting
+    column_config = {
+        "Ticker": st.column_config.TextColumn("Ticker", width="small"),
+        "Company": st.column_config.TextColumn("Company", width="medium"),
+        "Price": st.column_config.TextColumn("Price ($)", width="small"),
+        "Price Δ%": st.column_config.TextColumn("Price Δ%", width="small"),
+        "Open": st.column_config.TextColumn("Open ($)", width="small"),
+        "Close": st.column_config.TextColumn("Close ($)", width="small"),
+        "Day Δ%": st.column_config.TextColumn("Day Δ%", width="small"),
+        "High": st.column_config.TextColumn("High ($)", width="small"),
+        "Low": st.column_config.TextColumn("Low ($)", width="small"),
+        "Gap%": st.column_config.TextColumn("Gap%", width="small"),
+        "Volume": st.column_config.TextColumn("Volume", width="small"),
+        "Avg Vol (3M)": st.column_config.TextColumn("Avg Vol (3M)", width="small"),
+        "Signal": st.column_config.TextColumn("Signal", width="medium"),
+        "Sector": st.column_config.TextColumn("Sector", width="medium"),
+        "Style": st.column_config.TextColumn("Style", width="small"),
+        "Tags": st.column_config.TextColumn("Tags", width="medium"),
+    }
+
+    st.dataframe(
+        styled,
+        use_container_width=True,
+        height=600,
+        column_config=column_config,
+    )
 
     st.markdown("---")
 
@@ -704,91 +756,6 @@ def render_technical_analysis(tickers: list):
                 """, unsafe_allow_html=True)
 
 
-# ─── TAB 4: Summary ────────────────────────────────────────────────────────
-def render_summary(tickers: list):
-    """Render the Summary comparison table."""
-    st.header("📊 Summary")
-    st.markdown("---")
-
-    st.subheader("📋 Comparison Table")
-
-    classification_data = load_classification_data()
-    lookup = classification_data["lookup"]
-
-    summary_rows = []
-    for ticker in tickers:
-        df = get_stock_data(ticker, period="1y")
-        sector = lookup.get(ticker, {}).get("sector", "—")
-        if not df.empty:
-            df = calculate_indicators(df)
-            signal_str, _ = generate_signal(df)
-            ind = get_indicator_summary(df)
-            price_data = get_current_price_data(ticker)
-
-            latest = df.iloc[-1]
-            atr_val = f"{latest['ATR']:.2f}" if pd.notna(latest.get("ATR")) else "N/A"
-            adx_val = f"{latest['ADX']:.1f}" if pd.notna(latest.get("ADX")) else "N/A"
-
-            if not price_data["error"]:
-                price = f"${price_data['price']:.2f}"
-                change_html = format_change(price_data["change_pct"])
-            else:
-                price = "N/A"
-                change_html = "N/A"
-
-            summary_rows.append({
-                "Ticker": ticker,
-                "Sector": sector,
-                "Price": price,
-                "Change": change_html,
-                "RSI": ind.get("RSI(14)", "N/A"),
-                "Signal": signal_str,
-                "ATR": atr_val,
-                "ADX": adx_val,
-            })
-        else:
-            summary_rows.append({
-                "Ticker": ticker,
-                "Sector": sector,
-                "Price": "N/A",
-                "Change": "N/A",
-                "RSI": "N/A",
-                "Signal": "⏸️ HOLD",
-                "ATR": "N/A",
-                "ADX": "N/A",
-            })
-
-    # Render as HTML table
-    table_html = """
-    <table style="width:100%; border-collapse: collapse; text-align: center;">
-    <tr style="border-bottom: 2px solid #444;">
-        <th style="padding: 12px; color: #4CAF50;">Ticker</th>
-        <th style="padding: 12px; color: #4CAF50;">Sector</th>
-        <th style="padding: 12px; color: #4CAF50;">Price</th>
-        <th style="padding: 12px; color: #4CAF50;">Change</th>
-        <th style="padding: 12px; color: #4CAF50;">RSI(14)</th>
-        <th style="padding: 12px; color: #4CAF50;">Signal</th>
-        <th style="padding: 12px; color: #4CAF50;">ATR</th>
-        <th style="padding: 12px; color: #4CAF50;">ADX</th>
-    </tr>
-    """
-    for row in summary_rows:
-        table_html += f"""
-    <tr style="border-bottom: 1px solid #333;">
-        <td style="padding: 12px; font-weight: bold; color: #FFD700;">{row['Ticker']}</td>
-        <td style="padding: 12px; font-size: 0.85em;">{row['Sector']}</td>
-        <td style="padding: 12px;">{row['Price']}</td>
-        <td style="padding: 12px;">{row['Change']}</td>
-        <td style="padding: 12px;">{row['RSI']}</td>
-        <td style="padding: 12px; font-size: 1.1em;">{row['Signal']}</td>
-        <td style="padding: 12px;">{row['ATR']}</td>
-        <td style="padding: 12px;">{row['ADX']}</td>
-    </tr>
-    """
-    table_html += "</table>"
-    st.markdown(table_html, unsafe_allow_html=True)
-
-
 # ─── Main App ──────────────────────────────────────────────────────────────
 def main():
     st.markdown("# 📊 Stock Portfolio Dashboard")
@@ -845,7 +812,6 @@ def main():
         "💼 Portfolio Overview",
         "📅 Daily Report",
         "📈 Technical Analysis",
-        "📊 Summary",
     ])
 
     with tabs[0]:
@@ -856,9 +822,6 @@ def main():
 
     with tabs[2]:
         render_technical_analysis(tickers)
-
-    with tabs[3]:
-        render_summary(tickers)
 
     # Footer
     st.markdown("---")
