@@ -1,0 +1,1280 @@
+stocks:
+  # === INFORMATION TECHNOLOGY (15) ===
+  - ticker: AAPL
+    name: Apple Inc.
+    sector: Information Technology
+    style: Mega-Cap Growth
+    themes:
+      - Consumer Electronics
+      - Services Revenue
+      - AI Integration
+      - Wearables
+      - Digital Ecosystem
+      - Buybacks
+      - Premium Brand
+
+  - ticker: MSFT
+    name: Microsoft Corporation
+    sector: Information Technology
+    style: Mega-Cap Growth
+    themes:
+      - Cloud Computing
+      - AI
+      - Enterprise Software
+      - Azure
+      - Copilot
+      - Gaming
+      - Productivity Software
+
+  - ticker: NVDA
+    name: NVIDIA Corporation
+    sector: Information Technology
+    style: Mega-Cap Growth
+    themes:
+      - Semiconductors
+      - AI Compute
+      - Data Center
+      - GPU
+      - Autonomous Driving
+      - Gaming
+
+  - ticker: AVGO
+    name: Broadcom Inc.
+    sector: Information Technology
+    style: Mega-Cap Growth
+    themes:
+      - Semiconductors
+      - Networking Chips
+      - AI Infrastructure
+      - VMware
+      - Custom Silicon
+      - 5G
+
+  - ticker: ADBE
+    name: Adobe Inc.
+    sector: Information Technology
+    style: Mega-Cap Growth
+    themes:
+      - Creative Software
+      - Digital Media
+      - AI Content Generation
+      - Document Cloud
+      - Subscription Model
+      - Firefly AI
+
+  - ticker: CRM
+    name: Salesforce Inc.
+    sector: Information Technology
+    style: Mega-Cap Growth
+    themes:
+      - Cloud CRM
+      - Enterprise AI
+      - SaaS
+      - Data Cloud
+      - Agentforce
+      - Digital Transformation
+
+  - ticker: ORCL
+    name: Oracle Corporation
+    sector: Information Technology
+    style: Mega-Cap Growth
+    themes:
+      - Cloud Infrastructure
+      - Database Software
+      - Enterprise Applications
+      - AI Training
+      - Multi-Cloud
+      - Legacy Modernization
+
+  - ticker: CSCO
+    name: Cisco Systems Inc.
+    sector: Information Technology
+    style: Mega-Cap Blend
+    themes:
+      - Networking Equipment
+      - Cybersecurity
+      - Cloud Networking
+      - Collaboration Tools
+      - Dividend Growth
+      - Enterprise IT
+
+  - ticker: ACN
+    name: Accenture plc
+    sector: Information Technology
+    style: Mega-Cap Growth
+    themes:
+      - IT Consulting
+      - Digital Transformation
+      - AI Services
+      - Cloud Migration
+      - Managed Services
+      - Global Workforce
+
+  - ticker: AMD
+    name: Advanced Micro Devices Inc.
+    sector: Information Technology
+    style: Mega-Cap Growth
+    themes:
+      - Semiconductors
+      - AI Accelerators
+      - Data Center CPUs
+      - Gaming GPUs
+      - MI300
+      - x86 Architecture
+
+  - ticker: QCOM
+    name: Qualcomm Incorporated
+    sector: Information Technology
+    style: Large-Cap Blend
+    themes:
+      - Semiconductors
+      - Mobile Chips
+      - 5G Modems
+      - Automotive
+      - Snapdragon
+      - IoT
+
+  - ticker: TXN
+    name: Texas Instruments Incorporated
+    sector: Information Technology
+    style: Large-Cap Blend
+    themes:
+      - Analog Semiconductors
+      - Embedded Processing
+      - Industrial Chips
+      - Automotive Electronics
+      - Dividend Growth
+      - Fab Expansion
+
+  - ticker: NOW
+    name: ServiceNow Inc.
+    sector: Information Technology
+    style: Large-Cap Growth
+    themes:
+      - Enterprise SaaS
+      - IT Service Management
+      - AI Workflow
+      - Digital Workflows
+      - Employee Experience
+      - Automation
+
+  - ticker: IBM
+    name: International Business Machines Corporation
+    sector: Information Technology
+    style: Mega-Cap Blend
+    themes:
+      - IT Consulting
+      - Hybrid Cloud
+      - AI (watsonx)
+      - Mainframe
+      - Quantum Computing
+      - Dividend Aristocrat
+
+  - ticker: ADP
+    name: Automatic Data Processing Inc.
+    sector: Information Technology
+    style: Large-Cap Blend
+    themes:
+      - Payroll Services
+      - HR Technology
+      - Workforce Management
+      - Recurring Revenue
+      - Dividend Aristocrat
+      - Small Business
+
+  # === HEALTH CARE (14) ===
+  - ticker: LLY
+    name: Eli Lilly and Company
+    sector: Health Care
+    style: Mega-Cap Growth
+    themes:
+      - Pharmaceuticals
+      - GLP-1 Obesity Drugs
+      - Diabetes Treatment
+      - Alzheimer's Pipeline
+      - Biotech Innovation
+      - Mounjaro
+
+  - ticker: UNH
+    name: UnitedHealth Group Incorporated
+    sector: Health Care
+    style: Mega-Cap Blend
+    themes:
+      - Health Insurance
+      - Managed Care
+      - Optum Health Services
+      - Medicare Advantage
+      - Data Analytics
+      - PBM
+
+  - ticker: JNJ
+    name: Johnson & Johnson
+    sector: Health Care
+    style: Mega-Cap Blend
+    themes:
+      - Pharmaceuticals
+      - MedTech
+      - Immunology
+      - Oncology
+      - Dividend King
+      - Defensive
+
+  - ticker: ABBV
+    name: AbbVie Inc.
+    sector: Health Care
+    style: Mega-Cap Blend
+    themes:
+      - Pharmaceuticals
+      - Immunology
+      - Oncology
+      - Skyrizi
+      - Rinvoq
+      - Dividend Growth
+
+  - ticker: MRK
+    name: Merck & Co. Inc.
+    sector: Health Care
+    style: Mega-Cap Blend
+    themes:
+      - Pharmaceuticals
+      - Oncology
+      - Keytruda
+      - Vaccines
+      - Animal Health
+      - Pipeline
+
+  - ticker: ABT
+    name: Abbott Laboratories
+    sector: Health Care
+    style: Mega-Cap Blend
+    themes:
+      - Medical Devices
+      - Diagnostics
+      - Nutritional Products
+      - Cardiac Devices
+      - Continuous Glucose Monitoring
+      - Global Health
+
+  - ticker: TMO
+    name: Thermo Fisher Scientific Inc.
+    sector: Health Care
+    style: Mega-Cap Growth
+    themes:
+      - Life Sciences Tools
+      - Analytical Instruments
+      - Clinical Research
+      - Bioproduction
+      - Lab Consumables
+      - Scientific Services
+
+  - ticker: PFE
+    name: Pfizer Inc.
+    sector: Health Care
+    style: Large-Cap Value
+    themes:
+      - Pharmaceuticals
+      - Vaccines
+      - Oncology
+      - High Dividend
+      - Rare Disease
+      - Post-Pandemic Recovery
+
+  - ticker: DHR
+    name: Danaher Corporation
+    sector: Health Care
+    style: Mega-Cap Growth
+    themes:
+      - Life Sciences
+      - Diagnostics
+      - Bioprocessing
+      - DBS Operating System
+      - Scientific Instruments
+      - Water Quality
+
+  - ticker: AMGN
+    name: Amgen Inc.
+    sector: Health Care
+    style: Large-Cap Blend
+    themes:
+      - Biotechnology
+      - Oncology
+      - Cardiovascular
+      - Biosimilars
+      - Obesity Pipeline
+      - Dividend Growth
+
+  - ticker: BMY
+    name: Bristol-Myers Squibb Company
+    sector: Health Care
+    style: Large-Cap Value
+    themes:
+      - Pharmaceuticals
+      - Oncology
+      - Immunology
+      - High Dividend
+      - Opdivo
+      - Pipeline Risk
+
+  - ticker: GILD
+    name: Gilead Sciences Inc.
+    sector: Health Care
+    style: Large-Cap Value
+    themes:
+      - Biotechnology
+      - HIV Treatment
+      - Hepatitis C
+      - Oncology
+      - High Dividend
+      - Biktarvy
+
+  - ticker: ISRG
+    name: Intuitive Surgical Inc.
+    sector: Health Care
+    style: Mega-Cap Growth
+    themes:
+      - Robotic Surgery
+      - Medical Devices
+      - da Vinci System
+      - Minimally Invasive Surgery
+      - Recurring Revenue
+      - Digital Surgery
+
+  - ticker: CVS
+    name: CVS Health Corporation
+    sector: Health Care
+    style: Large-Cap Value
+    themes:
+      - Pharmacy
+      - Health Insurance (Aetna)
+      - Retail Health
+      - PBM
+      - Turnaround Story
+      - Value Trap Risk
+
+  # === FINANCIALS (15) ===
+  - ticker: BRK.B
+    name: Berkshire Hathaway Inc.
+    sector: Financials
+    style: Mega-Cap Blend
+    themes:
+      - Conglomerate
+      - Insurance
+      - Value Investing
+      - Diversified Holdings
+      - Cash Fortress
+      - Warren Buffett
+
+  - ticker: JPM
+    name: JPMorgan Chase & Co.
+    sector: Financials
+    style: Mega-Cap Blend
+    themes:
+      - Banking
+      - Investment Banking
+      - Wealth Management
+      - Trading
+      - Technology Investment
+      - Dividend Growth
+
+  - ticker: V
+    name: Visa Inc.
+    sector: Financials
+    style: Mega-Cap Blend
+    themes:
+      - Payments Network
+      - Fintech
+      - Digital Payments
+      - Cross-Border
+      - Asset-Light Model
+      - Secular Growth
+
+  - ticker: MA
+    name: Mastercard Incorporated
+    sector: Financials
+    style: Mega-Cap Blend
+    themes:
+      - Payments Network
+      - Fintech
+      - Digital Payments
+      - Cross-Border
+      - Value-Added Services
+      - Asset-Light Model
+
+  - ticker: BAC
+    name: Bank of America Corporation
+    sector: Financials
+    style: Mega-Cap Blend
+    themes:
+      - Banking
+      - Consumer Banking
+      - Wealth Management
+      - Investment Banking
+      - Interest Rate Sensitivity
+      - Dividend Growth
+
+  - ticker: WFC
+    name: Wells Fargo & Company
+    sector: Financials
+    style: Mega-Cap Value
+    themes:
+      - Banking
+      - Consumer Lending
+      - Commercial Banking
+      - Turnaround
+      - Cost Cutting
+      - Asset Cap
+
+  - ticker: GS
+    name: The Goldman Sachs Group Inc.
+    sector: Financials
+    style: Large-Cap Blend
+    themes:
+      - Investment Banking
+      - Trading
+      - Wealth Management
+      - Asset Management
+      - Capital Markets
+      - Institutional
+
+  - ticker: MS
+    name: Morgan Stanley
+    sector: Financials
+    style: Large-Cap Blend
+    themes:
+      - Investment Banking
+      - Wealth Management
+      - Trading
+      - Asset Management
+      - E*TRADE Integration
+      - Capital Markets
+
+  - ticker: AXP
+    name: American Express Company
+    sector: Financials
+    style: Large-Cap Blend
+    themes:
+      - Payments
+      - Premium Cards
+      - Travel & Entertainment
+      - Small Business
+      - Brand Loyalty
+      - Closed-Loop Network
+
+  - ticker: BLK
+    name: BlackRock Inc.
+    sector: Financials
+    style: Large-Cap Blend
+    themes:
+      - Asset Management
+      - ETFs (iShares)
+      - Aladdin Platform
+      - Passive Investing
+      - Infrastructure
+      - AI in Finance
+
+  - ticker: C
+    name: Citigroup Inc.
+    sector: Financials
+    style: Large-Cap Value
+    themes:
+      - Banking
+      - Global Banking
+      - Trading
+      - Restructuring
+      - Turnaround
+      - Emerging Markets
+
+  - ticker: SCHW
+    name: The Charles Schwab Corporation
+    sector: Financials
+    style: Large-Cap Blend
+    themes:
+      - Brokerage
+      - Wealth Management
+      - Banking
+      - Retail Investing
+      - Interest Rate Sensitivity
+      - TD Ameritrade Integration
+
+  - ticker: COF
+    name: Capital One Financial Corporation
+    sector: Financials
+    style: Large-Cap Value
+    themes:
+      - Credit Cards
+      - Consumer Lending
+      - Auto Finance
+      - Digital Banking
+      - Discover Merger
+      - Subprime Exposure
+
+  - ticker: BK
+    name: The Bank of New York Mellon Corporation
+    sector: Financials
+    style: Large-Cap Blend
+    themes:
+      - Custodian Bank
+      - Asset Servicing
+      - Wealth Management
+      - Treasury Services
+      - ETF Infrastructure
+      - Systemically Important
+
+  - ticker: USB
+    name: U.S. Bancorp
+    sector: Financials
+    style: Large-Cap Value
+    themes:
+      - Regional Banking
+      - Payments Processing
+      - Commercial Banking
+      - Dividend Growth
+      - Conservative Management
+      - Interest Rate Sensitivity
+
+  # === CONSUMER DISCRETIONARY (10) ===
+  - ticker: AMZN
+    name: Amazon.com Inc.
+    sector: Consumer Discretionary
+    style: Mega-Cap Growth
+    themes:
+      - E-Commerce
+      - Cloud Computing (AWS)
+      - AI
+      - Logistics
+      - Advertising
+      - Prime Ecosystem
+
+  - ticker: HD
+    name: The Home Depot Inc.
+    sector: Consumer Discretionary
+    style: Mega-Cap Blend
+    themes:
+      - Home Improvement Retail
+      - Pro Contractors
+      - Supply Chain
+      - Housing Market
+      - Dividend Growth
+      - Share Buybacks
+
+  - ticker: TSLA
+    name: Tesla Inc.
+    sector: Consumer Discretionary
+    style: Mega-Cap Growth
+    themes:
+      - Electric Vehicles
+      - Autonomous Driving
+      - Energy Storage
+      - AI/Robotics
+      - Solar
+      - Optimus Robot
+
+  - ticker: MCD
+    name: McDonald's Corporation
+    sector: Consumer Discretionary
+    style: Large-Cap Blend
+    themes:
+      - Quick Service Restaurants
+      - Franchise Model
+      - Digital Ordering
+      - Global Brand
+      - Dividend Aristocrat
+      - Value Menu Strategy
+
+  - ticker: LOW
+    name: Lowe's Companies Inc.
+    sector: Consumer Discretionary
+    style: Large-Cap Blend
+    themes:
+      - Home Improvement Retail
+      - Pro Business
+      - Housing Market
+      - Supply Chain
+      - Share Buybacks
+      - Dividend Growth
+
+  - ticker: NKE
+    name: NIKE Inc.
+    sector: Consumer Discretionary
+    style: Large-Cap Blend
+    themes:
+      - Athletic Apparel
+      - Footwear
+      - Direct-to-Consumer
+      - Global Brand
+      - Sports Marketing
+      - Turnaround
+
+  - ticker: SBUX
+    name: Starbucks Corporation
+    sector: Consumer Discretionary
+    style: Large-Cap Blend
+    themes:
+      - Quick Service Restaurants
+      - Coffee
+      - Loyalty Program
+      - Global Expansion
+      - Digital Ordering
+      - China Market
+
+  - ticker: TGT
+    name: Target Corporation
+    sector: Consumer Discretionary
+    style: Large-Cap Value
+    themes:
+      - Retail
+      - Private Label Brands
+      - Omnichannel
+      - Fulfillment
+      - Grocery
+      - Turnaround
+
+  - ticker: BKNG
+    name: Booking Holdings Inc.
+    sector: Consumer Discretionary
+    style: Mega-Cap Growth
+    themes:
+      - Online Travel
+      - Accommodation Booking
+      - Metasearch
+      - Global Tourism
+      - Asset-Light Model
+      - AI Recommendations
+
+  - ticker: GM
+    name: General Motors Company
+    sector: Consumer Discretionary
+    style: Large-Cap Value
+    themes:
+      - Automobiles
+      - Electric Vehicles
+      - Autonomous Driving (Cruise)
+      - Trucks/SUVs
+      - Share Buybacks
+      - Ultium Platform
+
+  # === COMMUNICATION SERVICES (10) ===
+  - ticker: GOOG
+    name: Alphabet Inc. (Class C)
+    sector: Communication Services
+    style: Mega-Cap Growth
+    themes:
+      - Digital Advertising
+      - AI (Gemini)
+      - Cloud Computing
+      - YouTube
+      - Search
+      - Waymo
+
+  - ticker: GOOGL
+    name: Alphabet Inc. (Class A)
+    sector: Communication Services
+    style: Mega-Cap Growth
+    themes:
+      - Digital Advertising
+      - AI (Gemini)
+      - Cloud Computing
+      - YouTube
+      - Search
+      - Waymo
+
+  - ticker: META
+    name: Meta Platforms Inc.
+    sector: Communication Services
+    style: Mega-Cap Growth
+    themes:
+      - Social Media
+      - Digital Advertising
+      - AI
+      - Metaverse/VR
+      - Messaging
+      - Llama Models
+
+  - ticker: NFLX
+    name: Netflix Inc.
+    sector: Communication Services
+    style: Mega-Cap Growth
+    themes:
+      - Streaming
+      - Original Content
+      - Global Entertainment
+      - Ad-Supported Tier
+      - Gaming
+      - Live Events
+
+  - ticker: DIS
+    name: The Walt Disney Company
+    sector: Communication Services
+    style: Large-Cap Blend
+    themes:
+      - Media & Entertainment
+      - Streaming (Disney+)
+      - Theme Parks
+      - Franchises (Marvel/Star Wars)
+      - Sports (ESPN)
+      - Turnaround
+
+  - ticker: CMCSA
+    name: Comcast Corporation
+    sector: Communication Services
+    style: Large-Cap Value
+    themes:
+      - Cable/Broadband
+      - Media (NBCUniversal)
+      - Streaming (Peacock)
+      - Sports Broadcasting
+      - High Dividend
+      - Xfinity
+
+  - ticker: T
+    name: AT&T Inc.
+    sector: Communication Services
+    style: Large-Cap Value
+    themes:
+      - Telecom
+      - 5G Infrastructure
+      - Fiber Broadband
+      - High Dividend
+      - Defensive
+      - Debt Reduction
+
+  - ticker: VZ
+    name: Verizon Communications Inc.
+    sector: Communication Services
+    style: Large-Cap Value
+    themes:
+      - Telecom
+      - 5G Infrastructure
+      - Fiber Broadband
+      - High Dividend
+      - Defensive
+      - Enterprise Solutions
+
+  - ticker: TMUS
+    name: T-Mobile US Inc.
+    sector: Communication Services
+    style: Large-Cap Blend
+    themes:
+      - Telecom
+      - 5G Leader
+      - Wireless Growth
+      - Subscriber Gains
+      - Sprint Integration
+      - Home Internet
+
+  - ticker: CHTR
+    name: Charter Communications Inc.
+    sector: Communication Services
+    style: Large-Cap Value
+    themes:
+      - Cable/Broadband
+      - Spectrum (Mobile)
+      - Enterprise Services
+      - Share Buybacks
+      - Rural Broadband
+      - High Dividend
+
+  # === INDUSTRIALS (12) ===
+  - ticker: GE
+    name: GE Aerospace
+    sector: Industrials
+    style: Mega-Cap Growth
+    themes:
+      - Aerospace Engines
+      - Defense
+      - Commercial Aviation
+      - LEAP Engine
+      - Aftermarket Services
+      - Spin-off Focus
+
+  - ticker: HON
+    name: Honeywell International Inc.
+    sector: Industrials
+    style: Large-Cap Blend
+    themes:
+      - Industrial Conglomerate
+      - Aerospace
+      - Building Technologies
+      - Automation
+      - Safety & Productivity
+      - Dividend Growth
+
+  - ticker: CAT
+    name: Caterpillar Inc.
+    sector: Industrials
+    style: Large-Cap Blend
+    themes:
+      - Construction Equipment
+      - Mining Equipment
+      - Energy & Transportation
+      - Infrastructure Spending
+      - Cyclical
+      - Dividend Growth
+
+  - ticker: BA
+    name: The Boeing Company
+    sector: Industrials
+    style: Large-Cap Value
+    themes:
+      - Aerospace & Defense
+      - Commercial Aircraft
+      - Defense Contracts
+      - Turnaround
+      - Supply Chain Issues
+      - 737 MAX Recovery
+
+  - ticker: UNP
+    name: Union Pacific Corporation
+    sector: Industrials
+    style: Large-Cap Blend
+    themes:
+      - Railroads
+      - Freight Transportation
+      - Supply Chain
+      - Pricing Power
+      - Dividend Growth
+      - Intermodal
+
+  - ticker: RTX
+    name: RTX Corporation
+    sector: Industrials
+    style: Large-Cap Blend
+    themes:
+      - Aerospace & Defense
+      - Pratt & Whitney Engines
+      - Collins Aerospace
+      - Raytheon Missiles
+      - Defense Spending
+      - Aftermarket
+
+  - ticker: UPS
+    name: United Parcel Service Inc.
+    sector: Industrials
+    style: Large-Cap Blend
+    themes:
+      - Logistics
+      - Package Delivery
+      - Supply Chain
+      - E-Commerce
+      - High Dividend
+      - Network Optimization
+
+  - ticker: DE
+    name: Deere & Company
+    sector: Industrials
+    style: Large-Cap Value
+    themes:
+      - Agricultural Equipment
+      - Construction Equipment
+      - Precision Agriculture
+      - Autonomous Farming
+      - Cyclical
+      - Technology Integration
+
+  - ticker: LMT
+    name: Lockheed Martin Corporation
+    sector: Industrials
+    style: Large-Cap Blend
+    themes:
+      - Defense Contractor
+      - Fighter Aircraft (F-35)
+      - Missiles
+      - Space Systems
+      - Government Contracts
+      - High Dividend
+
+  - ticker: EMR
+    name: Emerson Electric Co.
+    sector: Industrials
+    style: Large-Cap Blend
+    themes:
+      - Industrial Automation
+      - Process Control
+      - Energy Transition
+      - Software (AspenTech)
+      - Electrification
+      - Dividend Aristocrat
+
+  - ticker: GD
+    name: General Dynamics Corporation
+    sector: Industrials
+    style: Large-Cap Blend
+    themes:
+      - Defense Contractor
+      - Submarines
+      - Combat Vehicles
+      - Gulfstream Jets
+      - Government IT
+      - Dividend Aristocrat
+
+  - ticker: WM
+    name: Waste Management Inc.
+    sector: Industrials
+    style: Mega-Cap Growth
+    themes:
+      - Waste Services
+      - Recycling
+      - Landfill Operations
+      - Renewable Natural Gas
+      - Pricing Power
+      - Sustainability
+
+  # === CONSUMER STAPLES (9) ===
+  - ticker: WMT
+    name: Walmart Inc.
+    sector: Consumer Staples
+    style: Mega-Cap Blend
+    themes:
+      - Retail
+      - E-Commerce
+      - Grocery
+      - Supply Chain
+      - Advertising (Walmart Connect)
+      - Defensive
+
+  - ticker: PG
+    name: The Procter & Gamble Company
+    sector: Consumer Staples
+    style: Mega-Cap Blend
+    themes:
+      - Consumer Products
+      - Household Brands
+      - Beauty & Grooming
+      - Pricing Power
+      - Dividend King
+      - Defensive
+
+  - ticker: COST
+    name: Costco Wholesale Corporation
+    sector: Consumer Staples
+    style: Mega-Cap Growth
+    themes:
+      - Warehouse Retail
+      - Membership Model
+      - Private Label (Kirkland)
+      - Value Consumer
+      - Expansion
+      - Recurring Revenue
+
+  - ticker: KO
+    name: The Coca-Cola Company
+    sector: Consumer Staples
+    style: Mega-Cap Blend
+    themes:
+      - Beverages
+      - Global Brand
+      - Emerging Markets
+      - Dividend King
+      - Pricing Power
+      - Defensive
+
+  - ticker: PEP
+    name: PepsiCo Inc.
+    sector: Consumer Staples
+    style: Mega-Cap Blend
+    themes:
+      - Beverages
+      - Snacks (Frito-Lay)
+      - Global Brand
+      - Pricing Power
+      - Dividend Growth
+      - Health-Conscious Products
+
+  - ticker: PM
+    name: Philip Morris International Inc.
+    sector: Consumer Staples
+    style: Mega-Cap Blend
+    themes:
+      - Tobacco
+      - Smoke-Free Products (IQOS)
+      - International Markets
+      - High Dividend
+      - Reduced-Risk Products
+      - Pricing Power
+
+  - ticker: MO
+    name: Altria Group Inc.
+    sector: Consumer Staples
+    style: Large-Cap Value
+    themes:
+      - Tobacco
+      - Smokeless Products
+      - NJOY (Vaping)
+      - Very High Dividend
+      - US Market
+      - Declining Volume
+
+  - ticker: CL
+    name: Colgate-Palmolive Company
+    sector: Consumer Staples
+    style: Large-Cap Blend
+    themes:
+      - Oral Care
+      - Household Products
+      - Pet Nutrition (Hill's)
+      - Emerging Markets
+      - Dividend Aristocrat
+      - Defensive
+
+  - ticker: MDLZ
+    name: Mondelez International Inc.
+    sector: Consumer Staples
+    style: Large-Cap Blend
+    themes:
+      - Snacks & Confectionery
+      - Global Brands (Oreo/Cadbury)
+      - Emerging Markets
+      - Pricing Power
+      - Cocoa Costs
+      - Dividend Growth
+
+  # === ENERGY (4) ===
+  - ticker: XOM
+    name: Exxon Mobil Corporation
+    sector: Energy
+    style: Mega-Cap Value
+    themes:
+      - Integrated Oil & Gas
+      - LNG
+      - Chemical
+      - High Dividend
+      - Share Buybacks
+      - Energy Transition
+
+  - ticker: CVX
+    name: Chevron Corporation
+    sector: Energy
+    style: Mega-Cap Value
+    themes:
+      - Integrated Oil & Gas
+      - LNG
+      - Permian Basin
+      - High Dividend
+      - Hess Merger
+      - Energy Security
+
+  - ticker: COP
+    name: ConocoPhillips
+    sector: Energy
+    style: Large-Cap Value
+    themes:
+      - E&P (Exploration & Production)
+      - Permian Basin
+      - LNG
+      - Capital Return
+      - Low-Cost Producer
+      - Marathon Merger
+
+  - ticker: SLB
+    name: SLB Limited
+    sector: Energy
+    style: Large-Cap Value
+    themes:
+      - Oilfield Services
+      - Drilling Technology
+      - Digital Oilfield
+      - International Operations
+      - Energy Transition
+      - Carbon Capture
+
+  # === UTILITIES (4) ===
+  - ticker: NEE
+    name: NextEra Energy Inc.
+    sector: Utilities
+    style: Large-Cap Blend
+    themes:
+      - Renewable Energy
+      - Wind & Solar
+      - Regulated Utility (FPL)
+      - Energy Transition
+      - Battery Storage
+      - Dividend Growth
+
+  - ticker: DUK
+    name: Duke Energy Corporation
+    sector: Utilities
+    style: Large-Cap Value
+    themes:
+      - Regulated Utility
+      - Electric & Gas
+      - Grid Modernization
+      - High Dividend
+      - Defensive
+      - Nuclear
+
+  - ticker: SO
+    name: The Southern Company
+    sector: Utilities
+    style: Large-Cap Value
+    themes:
+      - Regulated Utility
+      - Electric & Gas
+      - Nuclear (Vogtle)
+      - High Dividend
+      - Defensive
+      - Southeast US
+
+  - ticker: EXC
+    name: Exelon Corporation
+    sector: Utilities
+    style: Large-Cap Value
+    themes:
+      - Regulated Utility
+      - Electric Distribution
+      - Nuclear Fleet
+      - Grid Investment
+      - High Dividend
+      - Data Center Demand
+
+  # === REAL ESTATE (3) ===
+  - ticker: PLD
+    name: Prologis Inc.
+    sector: Real Estate
+    style: Mega-Cap Growth
+    themes:
+      - Industrial REIT
+      - Logistics Warehouses
+      - E-Commerce Infrastructure
+      - Global Portfolio
+      - Data Centers
+      - Supply Chain
+
+  - ticker: AMT
+    name: American Tower Corporation
+    sector: Real Estate
+    style: Mega-Cap Growth
+    themes:
+      - Tower REIT
+      - 5G Infrastructure
+      - Data Centers (CoreSite)
+      - Global Towers
+      - Recurring Revenue
+      - Digital Infrastructure
+
+  - ticker: EQIX
+    name: Equinix Inc.
+    sector: Real Estate
+    style: Mega-Cap Growth
+    themes:
+      - Data Center REIT
+      - Digital Infrastructure
+      - Interconnection
+      - Cloud Ecosystem
+      - AI Workloads
+      - Colocation
+
+  # === MATERIALS (4) ===
+  - ticker: LIN
+    name: Linde plc
+    sector: Materials
+    style: Mega-Cap Growth
+    themes:
+      - Industrial Gases
+      - Hydrogen Economy
+      - Healthcare Gases
+      - Clean Energy
+      - Engineering
+      - Long-Term Contracts
+
+  - ticker: DOW
+    name: Dow Inc.
+    sector: Materials
+    style: Large-Cap Value
+    themes:
+      - Chemicals
+      - Packaging
+      - Infrastructure
+      - Consumer Solutions
+      - High Dividend
+      - Cyclical
+
+  - ticker: APD
+    name: Air Products and Chemicals Inc.
+    sector: Materials
+    style: Large-Cap Growth
+    themes:
+      - Industrial Gases
+      - Hydrogen
+      - Clean Energy
+      - LNG
+      - Gasification
+      - Mega Projects
+
+  - ticker: ECL
+    name: Ecolab Inc.
+    sector: Materials
+    style: Large-Cap Growth
+    themes:
+      - Water Treatment
+      - Hygiene Solutions
+      - Food Safety
+      - Sustainability
+      - Institutional Cleaning
+      - Recurring Revenue
+
+  # === ADDITIONAL TRACKED STOCKS (non-S&P 100) ===
+  - ticker: MRVL
+    name: Marvell Technology Inc.
+    sector: Information Technology
+    style: Large-Cap Growth
+    themes:
+      - Semiconductors
+      - Data Center
+      - AI Infrastructure
+      - Networking
+      - 5G
+      - Storage Solutions
+      - Custom Silicon
+
+  - ticker: NET
+    name: Cloudflare Inc.
+    sector: Information Technology
+    style: Large-Cap Growth
+    themes:
+      - Cloud Security
+      - Content Delivery Network
+      - Edge Computing
+      - Zero Trust Security
+      - Web Performance
+      - DDoS Protection
+      - Serverless Computing
+
+  - ticker: SMCI
+    name: Super Micro Computer Inc.
+    sector: Information Technology
+    style: Large-Cap Growth
+    themes:
+      - AI Servers
+      - Data Center Infrastructure
+      - GPU Computing
+      - High Performance Computing
+      - Enterprise Storage
+      - Liquid Cooling
+      - AI Hardware
+
+  - ticker: SKHY
+    name: SK Hynix Inc.
+    sector: Information Technology
+    style: Large-Cap Growth
+    themes:
+      - Memory Semiconductors
+      - DRAM
+      - NAND Flash
+      - High Bandwidth Memory
+      - AI Accelerators
+      - Mobile Memory
+      - HBM for AI GPUs
+
+  - ticker: SPCX
+    name: SPDR S&P Kensho Final Frontiers ETF
+    sector: Industrials
+    style: ETF
+    themes:
+      - Space Exploration
+      - Aerospace and Defense
+      - Satellite Technology
+      - Space Tourism
+      - Rocket Launch Services
+      - Space Infrastructure
+      - Commercial Space
+      - Thematic ETF
