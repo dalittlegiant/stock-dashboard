@@ -7,6 +7,8 @@ import streamlit as st
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import pandas as pd
+import yaml
+import os
 
 from config import HOLDINGS, WATCHLIST
 from data import get_stock_data, get_stock_info, get_stock_news, get_current_price_data
@@ -67,6 +69,45 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
+# ─── Classification Data ───────────────────────────────────────────────────
+
+@st.cache_data
+def load_classification_data():
+    """Load and parse the sp100.yaml classification data."""
+    yaml_path = os.path.join(os.path.dirname(__file__), "data", "sp100.yaml")
+    with open(yaml_path, "r") as f:
+        data = yaml.safe_load(f)
+
+    # Build lookup dict: ticker -> {name, sector, style, themes}
+    lookup = {}
+    all_tickers = []
+    sectors = set()
+    styles = set()
+    themes = set()
+
+    for stock in data.get("stocks", []):
+        ticker = stock["ticker"]
+        all_tickers.append(ticker)
+        lookup[ticker] = {
+            "name": stock.get("name", ticker),
+            "sector": stock.get("sector", "Unknown"),
+            "style": stock.get("style", "Unknown"),
+            "themes": stock.get("themes", []),
+        }
+        sectors.add(stock.get("sector", "Unknown"))
+        styles.add(stock.get("style", "Unknown"))
+        for theme in stock.get("themes", []):
+            themes.add(theme)
+
+    return {
+        "lookup": lookup,
+        "all_tickers": all_tickers,
+        "sectors": sorted(sectors),
+        "styles": sorted(styles),
+        "themes": sorted(themes),
+    }
+
+
 # ─── Helper Functions ───────────────────────────────────────────────────────
 
 def format_change(change_pct):
@@ -91,14 +132,39 @@ def format_volume(vol):
     return str(int(vol))
 
 
-def get_filtered_tickers(filter_choice: str) -> list:
-    """Get list of tickers based on filter selection."""
+def get_filtered_tickers(filter_choice: str, sector: str = "All", style: str = "All",
+                         selected_themes: list = None, classification_data: dict = None) -> list:
+    """Get list of tickers based on combined filter selections."""
+    if classification_data is None:
+        classification_data = load_classification_data()
+
+    lookup = classification_data["lookup"]
+
+    # Step 1: Start with portfolio filter
     if filter_choice == "Holdings":
-        return HOLDINGS
+        tickers = list(HOLDINGS)
     elif filter_choice == "Watchlist":
-        return WATCHLIST
-    else:  # "All"
-        return HOLDINGS + WATCHLIST
+        tickers = list(WATCHLIST)
+    else:  # "All" - use all tickers from YAML
+        tickers = list(classification_data["all_tickers"])
+
+    # Step 2: Filter by sector
+    if sector != "All":
+        tickers = [t for t in tickers if lookup.get(t, {}).get("sector") == sector or t not in lookup]
+
+    # Step 3: Filter by style
+    if style != "All":
+        tickers = [t for t in tickers if lookup.get(t, {}).get("style") == style or t not in lookup]
+
+    # Step 4: Filter by theme tags (ticker must have at least one selected tag)
+    if selected_themes:
+        tickers = [
+            t for t in tickers
+            if t not in lookup or
+            any(theme in lookup[t].get("themes", []) for theme in selected_themes)
+        ]
+
+    return tickers
 
 
 def create_price_chart_with_overlays(df: pd.DataFrame, ticker: str):
@@ -353,6 +419,9 @@ def render_portfolio_overview(tickers: list):
     st.header("💼 Portfolio Overview")
     st.markdown("---")
 
+    classification_data = load_classification_data()
+    lookup = classification_data["lookup"]
+
     # Build table
     holdings_data = []
     for ticker in tickers:
@@ -364,9 +433,14 @@ def render_portfolio_overview(tickers: list):
         else:
             signal_str = "⏸️ HOLD"
 
+        sector = lookup.get(ticker, {}).get("sector", "—")
+        style = lookup.get(ticker, {}).get("style", "—")
+
         if not price_data["error"]:
             holdings_data.append({
                 "Ticker": ticker,
+                "Sector": sector,
+                "Style": style,
                 "Price ($)": f"${price_data['price']:.2f}",
                 "Daily Change": format_change(price_data["change_pct"]),
                 "Volume": format_volume(price_data["volume"]),
@@ -375,6 +449,8 @@ def render_portfolio_overview(tickers: list):
         else:
             holdings_data.append({
                 "Ticker": ticker,
+                "Sector": sector,
+                "Style": style,
                 "Price ($)": "N/A",
                 "Daily Change": "N/A",
                 "Volume": "N/A",
@@ -386,6 +462,8 @@ def render_portfolio_overview(tickers: list):
     <table style="width:100%; border-collapse: collapse; text-align: center;">
     <tr style="border-bottom: 2px solid #444;">
         <th style="padding: 10px; color: #4CAF50;">Ticker</th>
+        <th style="padding: 10px; color: #4CAF50;">Sector</th>
+        <th style="padding: 10px; color: #4CAF50;">Style</th>
         <th style="padding: 10px; color: #4CAF50;">Price</th>
         <th style="padding: 10px; color: #4CAF50;">Daily Change</th>
         <th style="padding: 10px; color: #4CAF50;">Volume</th>
@@ -396,6 +474,8 @@ def render_portfolio_overview(tickers: list):
         table_html += f"""
     <tr style="border-bottom: 1px solid #333;">
         <td style="padding: 10px; font-weight: bold; color: #FFD700;">{row['Ticker']}</td>
+        <td style="padding: 10px; font-size: 0.85em;">{row['Sector']}</td>
+        <td style="padding: 10px; font-size: 0.85em;">{row['Style']}</td>
         <td style="padding: 10px;">{row['Price ($)']}</td>
         <td style="padding: 10px;">{row['Daily Change']}</td>
         <td style="padding: 10px;">{row['Volume']}</td>
@@ -632,9 +712,13 @@ def render_summary(tickers: list):
 
     st.subheader("📋 Comparison Table")
 
+    classification_data = load_classification_data()
+    lookup = classification_data["lookup"]
+
     summary_rows = []
     for ticker in tickers:
         df = get_stock_data(ticker, period="1y")
+        sector = lookup.get(ticker, {}).get("sector", "—")
         if not df.empty:
             df = calculate_indicators(df)
             signal_str, _ = generate_signal(df)
@@ -654,6 +738,7 @@ def render_summary(tickers: list):
 
             summary_rows.append({
                 "Ticker": ticker,
+                "Sector": sector,
                 "Price": price,
                 "Change": change_html,
                 "RSI": ind.get("RSI(14)", "N/A"),
@@ -664,6 +749,7 @@ def render_summary(tickers: list):
         else:
             summary_rows.append({
                 "Ticker": ticker,
+                "Sector": sector,
                 "Price": "N/A",
                 "Change": "N/A",
                 "RSI": "N/A",
@@ -677,6 +763,7 @@ def render_summary(tickers: list):
     <table style="width:100%; border-collapse: collapse; text-align: center;">
     <tr style="border-bottom: 2px solid #444;">
         <th style="padding: 12px; color: #4CAF50;">Ticker</th>
+        <th style="padding: 12px; color: #4CAF50;">Sector</th>
         <th style="padding: 12px; color: #4CAF50;">Price</th>
         <th style="padding: 12px; color: #4CAF50;">Change</th>
         <th style="padding: 12px; color: #4CAF50;">RSI(14)</th>
@@ -689,6 +776,7 @@ def render_summary(tickers: list):
         table_html += f"""
     <tr style="border-bottom: 1px solid #333;">
         <td style="padding: 12px; font-weight: bold; color: #FFD700;">{row['Ticker']}</td>
+        <td style="padding: 12px; font-size: 0.85em;">{row['Sector']}</td>
         <td style="padding: 12px;">{row['Price']}</td>
         <td style="padding: 12px;">{row['Change']}</td>
         <td style="padding: 12px;">{row['RSI']}</td>
@@ -707,17 +795,50 @@ def main():
     st.caption("🕐 Data refreshes every 5 minutes | Powered by Yahoo Finance")
     st.markdown("---")
 
-    # Sidebar-style filter at the top (persists across tabs)
-    col_filter, col_spacer = st.columns([1, 4])
-    with col_filter:
+    # Load classification data
+    classification_data = load_classification_data()
+
+    # Filter bar with all filters in horizontal layout
+    st.subheader("🔍 Filters")
+    col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
+
+    with col1:
         filter_choice = st.selectbox(
-            "🔍 Filter:",
+            "Portfolio:",
             options=["All", "Holdings", "Watchlist"],
             key="portfolio_filter",
         )
 
+    with col2:
+        sector_options = ["All"] + classification_data["sectors"]
+        sector_filter = st.selectbox(
+            "Sector:",
+            options=sector_options,
+            key="sector_filter",
+        )
+
+    with col3:
+        style_options = ["All"] + classification_data["styles"]
+        style_filter = st.selectbox(
+            "Style:",
+            options=style_options,
+            key="style_filter",
+        )
+
+    with col4:
+        theme_filter = st.multiselect(
+            "Theme Tags:",
+            options=classification_data["themes"],
+            key="theme_filter",
+            placeholder="Select themes...",
+        )
+
     # Get filtered tickers
-    tickers = get_filtered_tickers(filter_choice)
+    tickers = get_filtered_tickers(
+        filter_choice, sector_filter, style_filter, theme_filter, classification_data
+    )
+
+    st.markdown(f"**Showing {len(tickers)} stocks**")
 
     # Tabs
     tabs = st.tabs([
