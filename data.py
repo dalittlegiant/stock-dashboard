@@ -77,3 +77,55 @@ def get_current_price_data(ticker: str) -> dict:
         }
     except Exception as e:
         return {"price": None, "change_pct": None, "volume": None, "error": True}
+
+
+@st.cache_data(ttl=CACHE_TTL)
+def get_enhanced_price_data(ticker: str) -> dict:
+    """Get enhanced price data with all fields for the Portfolio Overview table.
+    
+    Returns dict with: price, price_change_pct, open, close, day_change_pct,
+    high, low, gap_pct, volume, avg_volume_3m, error flag.
+    """
+    try:
+        df = get_stock_data(ticker, period="5d")
+        if df.empty or len(df) < 2:
+            return {"error": True}
+
+        current = df.iloc[-1]
+        previous = df.iloc[-2]
+
+        open_price = current["Open"]
+        close_price = current["Close"]
+        high = current["High"]
+        low = current["Low"]
+        volume = current["Volume"]
+        prev_close = previous["Close"]
+
+        # Price change vs previous close
+        price_change_pct = ((close_price - prev_close) / prev_close) * 100
+
+        # Intraday change: (Close - Open) / Open * 100
+        day_change_pct = ((close_price - open_price) / open_price) * 100 if open_price != 0 else 0.0
+
+        # Overnight gap: (Open - PreviousClose) / PreviousClose * 100
+        gap_pct = ((open_price - prev_close) / prev_close) * 100 if prev_close != 0 else 0.0
+
+        # Average volume over 3 months
+        df_3mo = get_stock_data(ticker, period="3mo")
+        avg_volume_3m = df_3mo["Volume"].mean() if not df_3mo.empty else None
+
+        return {
+            "price": close_price,
+            "price_change_pct": price_change_pct,
+            "open": open_price,
+            "close": close_price,
+            "day_change_pct": day_change_pct,
+            "high": high,
+            "low": low,
+            "gap_pct": gap_pct,
+            "volume": volume,
+            "avg_volume_3m": avg_volume_3m,
+            "error": False,
+        }
+    except Exception:
+        return {"error": True}
