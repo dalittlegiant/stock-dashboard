@@ -1103,6 +1103,170 @@ def render_market_universe(universe_tickers: list, classification_data: dict):
         hide_index=True,
     )
 
+    # ── Full Universe KPI Comparison Table ──
+    st.markdown("---")
+    st.subheader("📋 Full Universe KPI Comparison")
+    st.caption("Scroll horizontally to see all columns. Use Level 1 filters to narrow down by sector/style/tags.")
+
+    kpi_rows = []
+    with st.spinner(f"Loading KPI data for {len(universe_tickers)} stocks..."):
+        for ticker in universe_tickers:
+            try:
+                # Get enhanced price data
+                epd = get_enhanced_price_data(ticker)
+                if epd.get("error"):
+                    continue
+
+                # Get 1y data for 52W high and weekly return
+                df_1y = get_stock_data(ticker, period="1y")
+                if df_1y.empty:
+                    continue
+
+                # Calculate indicators
+                df_ind = calculate_indicators(df_1y)
+                latest = df_ind.iloc[-1] if not df_ind.empty else None
+
+                # Generate signal
+                signal_str, _ = generate_signal(df_ind) if not df_ind.empty else ("⏸️ HOLD", [])
+
+                # 52-week high
+                high_52w = df_1y["High"].max() if "High" in df_1y.columns else None
+                from_52w_high = ((epd["price"] - high_52w) / high_52w * 100) if high_52w and epd["price"] else None
+
+                # Weekly return (5 trading days ago)
+                week_pct = None
+                if len(df_1y) >= 6:
+                    close_5d_ago = df_1y["Close"].iloc[-6]
+                    if close_5d_ago and close_5d_ago > 0:
+                        week_pct = (epd["price"] - close_5d_ago) / close_5d_ago * 100
+
+                # Volume ratio
+                vol_ratio = None
+                if epd.get("volume") and epd.get("avg_volume_3m") and epd["avg_volume_3m"] > 0:
+                    vol_ratio = epd["volume"] / epd["avg_volume_3m"]
+
+                # BB Width
+                bb_width = None
+                if latest is not None and pd.notna(latest.get("BB_Upper")) and pd.notna(latest.get("BB_Middle")):
+                    bb_mid = latest["BB_Middle"]
+                    if bb_mid > 0:
+                        bb_width = (latest["BB_Upper"] - latest["BB_Lower"]) / bb_mid * 100
+
+                # Classification info
+                stock_cls = lookup.get(ticker, {})
+                themes = stock_cls.get("themes", [])
+                tags_str = ", ".join(themes[:3]) + ("..." if len(themes) > 3 else "")
+
+                kpi_rows.append({
+                    "Ticker": ticker,
+                    "Company": stock_cls.get("name", ticker),
+                    "Sector": stock_cls.get("sector", "Unknown"),
+                    "Style": stock_cls.get("style", "Unknown"),
+                    "Price": epd["price"],
+                    "Price Δ%": epd["price_change_pct"],
+                    "Day Δ%": epd["day_change_pct"],
+                    "Gap%": epd["gap_pct"],
+                    "Volume": epd["volume"],
+                    "Avg Vol (3M)": epd.get("avg_volume_3m"),
+                    "Vol Ratio": vol_ratio,
+                    "Signal": signal_str,
+                    "ADX(14)": latest["ADX"] if latest is not None and pd.notna(latest.get("ADX")) else None,
+                    "RSI(14)": latest["RSI"] if latest is not None and pd.notna(latest.get("RSI")) else None,
+                    "Stoch %K": latest["Stoch_K"] if latest is not None and pd.notna(latest.get("Stoch_K")) else None,
+                    "MACD Hist": latest["MACDh_12_26_9"] if latest is not None and pd.notna(latest.get("MACDh_12_26_9")) else None,
+                    "SMA(20)": latest["SMA_20"] if latest is not None and pd.notna(latest.get("SMA_20")) else None,
+                    "SMA(50)": latest["SMA_50"] if latest is not None and pd.notna(latest.get("SMA_50")) else None,
+                    "EMA(12)": latest["EMA_12"] if latest is not None and pd.notna(latest.get("EMA_12")) else None,
+                    "BB Width%": bb_width,
+                    "Week %": week_pct,
+                    "From 52W High%": from_52w_high,
+                    "Tags": tags_str,
+                })
+            except Exception:
+                continue
+
+    if kpi_rows:
+        df_kpi = pd.DataFrame(kpi_rows)
+
+        # Apply pandas Styler for color coding
+        def style_kpi_table(styler):
+            # Color percentage columns: green positive, red negative
+            pct_cols = ["Price Δ%", "Day Δ%", "Gap%", "Week %", "From 52W High%"]
+            for col in pct_cols:
+                if col in styler.columns:
+                    styler = styler.map(
+                        lambda val: "color: #00ff88;" if pd.notna(val) and val > 0 else (
+                            "color: #ff4444;" if pd.notna(val) and val < 0 else ""
+                        ),
+                        subset=[col]
+                    )
+
+            # RSI coloring
+            if "RSI(14)" in styler.columns:
+                styler = styler.map(
+                    lambda val: "color: #00ff88; font-weight: bold;" if pd.notna(val) and val < 30 else (
+                        "color: #ff4444; font-weight: bold;" if pd.notna(val) and val > 70 else ""
+                    ),
+                    subset=["RSI(14)"]
+                )
+
+            # ADX bold for strong trends
+            if "ADX(14)" in styler.columns:
+                styler = styler.map(
+                    lambda val: "font-weight: bold; color: #FFD700;" if pd.notna(val) and val > 25 else "",
+                    subset=["ADX(14)"]
+                )
+
+            # Vol Ratio bold for high activity
+            if "Vol Ratio" in styler.columns:
+                styler = styler.map(
+                    lambda val: "font-weight: bold; color: #FFD700;" if pd.notna(val) and val > 1.5 else "",
+                    subset=["Vol Ratio"]
+                )
+
+            # BB Width highlight for squeeze
+            if "BB Width%" in styler.columns:
+                styler = styler.map(
+                    lambda val: "background-color: rgba(0, 255, 136, 0.15); color: #00ff88;" if pd.notna(val) and val < 5 else "",
+                    subset=["BB Width%"]
+                )
+
+            return styler
+
+        # Format columns for display
+        styled = df_kpi.style.pipe(style_kpi_table)
+
+        # Apply formatting
+        fmt_dict = {
+            "Price": lambda x: f"${x:.2f}" if pd.notna(x) else "N/A",
+            "Price Δ%": lambda x: f"{x:+.2f}%" if pd.notna(x) else "N/A",
+            "Day Δ%": lambda x: f"{x:+.2f}%" if pd.notna(x) else "N/A",
+            "Gap%": lambda x: f"{x:+.2f}%" if pd.notna(x) else "N/A",
+            "Volume": lambda x: format_volume(x) if pd.notna(x) else "N/A",
+            "Avg Vol (3M)": lambda x: format_volume(x) if pd.notna(x) else "N/A",
+            "Vol Ratio": lambda x: f"{x:.1f}x" if pd.notna(x) else "N/A",
+            "ADX(14)": lambda x: f"{x:.1f}" if pd.notna(x) else "N/A",
+            "RSI(14)": lambda x: f"{x:.1f}" if pd.notna(x) else "N/A",
+            "Stoch %K": lambda x: f"{x:.1f}" if pd.notna(x) else "N/A",
+            "MACD Hist": lambda x: f"{x:.4f}" if pd.notna(x) else "N/A",
+            "SMA(20)": lambda x: f"${x:.2f}" if pd.notna(x) else "N/A",
+            "SMA(50)": lambda x: f"${x:.2f}" if pd.notna(x) else "N/A",
+            "EMA(12)": lambda x: f"${x:.2f}" if pd.notna(x) else "N/A",
+            "BB Width%": lambda x: f"{x:.1f}%" if pd.notna(x) else "N/A",
+            "Week %": lambda x: f"{x:+.2f}%" if pd.notna(x) else "N/A",
+            "From 52W High%": lambda x: f"{x:+.2f}%" if pd.notna(x) else "N/A",
+        }
+        styled = styled.format(fmt_dict, na_rep="N/A")
+
+        st.dataframe(
+            styled,
+            use_container_width=True,
+            height=600,
+            hide_index=True,
+        )
+    else:
+        st.warning("⚠️ Could not load KPI data for any stocks.")
+
 
 # ─── TAB 3: Daily Report ───────────────────────────────────────────────────
 def render_daily_report(universe_tickers: list, classification_data: dict):
